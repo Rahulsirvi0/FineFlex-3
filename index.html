@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FineFlex - Your AI Financial Companion</title>                        
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo"><img src="FineFlex img.png" alt="FineFlex" class="logo-icon"><span style="font-size: 30px;">FineFlex</span></div>
+      <ul class="nav-menu">
+        <li><a class="nav-link active" href="#home" onclick="navigateToSection('home')">Home</a></li>
+        <li><a class="nav-link" href="#dashboard" onclick="navigateToSection('dashboard')">Dashboard</a></li>
+        <li><a class="nav-link" href="#advisor" onclick="navigateToSection('advisor')">AI Advisor</a></li>
+        <li><a class="nav-link" href="#auth" onclick="navigateToSection('auth')">Account</a></li>
+      </ul>
+      <!-- Add this inside your nav-container after the nav-menu -->
+      <div class="language-switcher">
+         <button class="lang-btn" onclick="changeLanguage('en')">ENGLISH</button>
+         <button class="lang-btn" onclick="changeLanguage('hi')">हिंदी</button>
+       </div>
+    </div>
+  </nav>
+
+  <!-- HOME -->
+    <section id="home" class="section active" >
+    <div class="hero-container">
+      
+      <div>
+        <h1 class="hero-title">Your AI Financial <span class="gradient-text">Companion</span></h1>
+        <p class="hero-subtext">
+          Take control of your finances with intelligent insights, personalized recommendations, and real-time tracking.
+        </p>
+        <button class="cta-button" onclick="navigateToSection('auth')">Get Started</button>
+      </div>
+      <div class="hero-cards">
+        <div class="dashboard-card small-card">
+          <h3>Track Expenses</h3>
+          <p>Add expenses to visualize where money goes.</p>
+        </div>
+        <div class="dashboard-card small-card">
+          <h3>Smart Insights</h3>
+          <p>Receive tailored tips and goal nudges.</p>
+        </div>
+        
+      </div>
+      <img src="home page img.png" alt="Finance Illustration" class="hero-image">
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="section">
+    <div class="dashboard-container">
+      <h2>Financial Dashboard</h2>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <h3>Monthly Income</h3>
+          <div class="input-group">
+            <span>₹</span>
+            <input id="income-input" class="income-input" type="number" placeholder="5000">
+            <button class="save-button" onclick="saveIncome()">Save</button>
+          </div>
+          <div class="summary-line">
+            <span>Current Income</span><strong id="income-display">₹0</strong>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>Savings Goal</h3>
+          <div class="input-group">
+            <span>₹</span>
+            <input id="goal-input" class="income-input" type="number" placeholder="10000">
+            <button class="save-button" onclick="saveSavingsGoal()">Set Goal</button>
+          </div>
+          <div class="goal-progress">
+            <div class="goal-header">
+              <span>Progress</span><span id="goal-percentage">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div id="progress-fill"></div>
+            </div>
+            <div class="goal-values">
+              <span id="saved-amount">₹0</span>
+              <span id="goal-amount">₹0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-card">
+        <h3>Add Expense</h3>
+        <form onsubmit="addExpense(event)" class="expense-form">
+          <input id="expense-name" placeholder="Description" required>
+          <input id="expense-amount" type="number" placeholder="Amount (₹)" required>
+          <select id="expense-category" required>
+            <option value="food">🍔 Food & Dining</option>
+            <option value="transport">🚗 Transportation</option>
+            <option value="entertainment">🎬 Entertainment</option>
+            <option value="utilities">💡 Utilities</option>
+            <option value="shopping">🛍️ Shopping</option>
+            <option value="health">🏥 Healthcare</option>
+            <option value="other">📦 Other</option>
+          </select>
+          <button class="add-expense-button" type="submit">Add</button>
+          <button type="button" onclick="clearAllExpenses()" class="clear-btn">Clear All</button>
+        </form>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="expenses-header">
+            <h3>Recent Expenses</h3>
+            <div>Total: <strong id="total-expenses">₹0.00</strong></div>
+          </div>
+          <div class="expenses-list" id="expenses-list">
+            <div class="placeholder">No expenses yet. Start tracking your spending!</div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>Spending by Category</h3>
+          <canvas id="expenses-chart"></canvas>
+        </div>
+      </div>
+
+      <div class="dashboard-card insights-card">
+        <h3>💡 Smart Insights</h3>
+        <div id="insights-grid">Start tracking your expenses to get personalized insights!</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTH -->
+  <section id="auth" class="section">
+    <div class="auth-container">
+      <h2>Welcome to FineFlex</h2>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="showAuthTab('login')">Login</button>
+        <button class="auth-tab" id="tab-register" onclick="showAuthTab('register')">Register</button>
+      </div>
+
+      <div id="login-form" class="auth-form">
+        <input id="login-email" placeholder="Email">
+        <input id="login-password" type="password" placeholder="Password">
+        <button class="auth-button" onclick="handleLogin()">Login</button>
+      </div>
+
+      <div id="register-form" class="auth-form hidden">
+        <input id="register-username" placeholder="Username">
+        <input id="register-email" placeholder="Email">
+        <input id="register-password" type="password" placeholder="Password">
+        <input id="register-income" type="number" placeholder="Monthly Income (₹)">
+        <input id="register-goal" type="number" placeholder="Savings Goal (₹)">
+        <input id="openai-key" placeholder="OpenAI API Key (optional)">
+        <button class="auth-button" onclick="handleRegister()">Create Account</button>
+      </div>
+
+      <div id="user-info" class="hidden">
+        <h3>Welcome, <span id="user-name">User</span>!</h3>
+        <button onclick="handleLogout()" class="logout-btn">Logout</button>
+        <button onclick="saveOpenAIKeyFromInput()" class="auth-button">Save API Key</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADVISOR -->
+  <section id="advisor" class="section">
+    <div class="advisor-container">
+      <h2>AI Financial Advisor</h2>
+      <div class="advisor-card">
+        <div class="advisor-header">
+          <div class="ai-avatar">🤖</div>
+          <div>
+            <strong>FineFlex AI</strong>
+            <p>Always here to help</p>
+          </div>
+        </div>
+
+        <h4>Personalized Recommendations</h4>
+        <div id="recommendations-list">Add your income and expenses to get personalized financial advice.</div>
+
+        <h4>Chat with FineFlex AI 💬</h4>
+        <div class="chat-container">
+          <input id="user-question" placeholder="Ask FineFlex AI anything...">
+          <button id="ask-ai-btn" onclick="handleAskAI()">Ask</button>
+        </div>
+        <div id="ai-response"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2025 FineFlex — All data stored locally.</footer>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+</body>
+</html>
